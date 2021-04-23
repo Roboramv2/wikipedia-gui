@@ -1,6 +1,10 @@
 from tkinter import *
 import wikipedia
 
+def disp(x, textbox):
+    textbox.delete("1.0", "end")
+    textbox.insert(INSERT, x)
+
 def main(a=None):
     prev = listbox.size()
     if prev == 0:
@@ -12,46 +16,76 @@ def main(a=None):
         for i in range(len(l)):
             listbox.insert(i+1, l[i])
     else:
-        listbox.delete(1, prev)
+        listbox.delete(0, prev)
         main(a)
     
-def trying():
+def sectionsbutton():
     i = listbox.curselection()
     i = listbox.get(i)
     try:
+        global m
         m = wikipedia.page(title=i, auto_suggest=False)
-        print(m.content)
-    except:
-        try:
-            main(i)
-        except:
-            m = wikipedia.page(title=i, auto_suggest=True)
-            print(m.content)
+        l = m.sections
+        prev = sectionlist.size()
+        if prev == 0:
+            for n in range(len(l)):
+                sectionlist.insert(n+1, l[n])
+        else:
+            sectionlist.delete(0, prev)
+            sectionsbutton()
 
+    except:
+        print("Disambuguation error, be more specific")
+        
+def extractbutton():
+    i = sectionlist.curselection()
+    i = sectionlist.get(i)
+    sect = m.section(i)
+    disp(sect, text)
 
 root = Tk()
-root.geometry("200x150")
+root.geometry("800x480")
 frame = Frame(root)
 frame.pack()
- 
+
+#frames
+topframe = Frame(root)
+topframe.pack(side=TOP, pady = (15, 0))
 leftframe = Frame(root)
-leftframe.pack(side=LEFT)
- 
-rightframe = Frame(root)
-rightframe.pack(side=RIGHT)
+leftframe.pack(side=LEFT, pady = 15, padx = (15, 0))
+midframe = Frame(root)
+midframe.pack(pady = 15, padx = 15)
 
-my_entry = Entry(leftframe, width = 20)
-my_entry.insert(0,'enter search term')
-my_entry.pack(padx = 5, pady = 5)
+#search bar #search button
+my_entry = Entry(topframe, width = 20,font = ('Verdana',13), relief="groove")
+my_entry.insert(0,' ')
+my_entry.pack(side = LEFT) 
+button1 = Button(topframe, text = "Search", command=main)
+button1.pack(side = RIGHT)
 
-button1 = Button(leftframe, text = "Search", command=main)
-button1.pack(padx = 3, pady = 3)
+#search results #label #section button
+res = StringVar()
+label = Label(leftframe, textvariable=res)
+res.set("Search Results")
+label.pack(pady = 0)
+listbox = Listbox(leftframe)
+listbox.pack(side = TOP)
+button4 = Button(leftframe, text = "Sections: ", command=sectionsbutton, bd = 0)
+button4.pack(side = TOP,)
 
-listbox = Listbox(rightframe)
-listbox.pack(side = TOP)  
-print(listbox.size())
-button3 = Button(rightframe, text = "extract", command=trying)
-button3.pack(side = BOTTOM, padx = 3, pady = 3)
+#sections #label #extract button
+sectionlist = Listbox(leftframe)
+sectionlist.pack(pady = (0, 3))
+button3 = Button(leftframe, text = "Extract content: ", command=extractbutton, bd = 0)
+button3.pack(side = BOTTOM,)
+
+#text display #label
+out = StringVar()
+label = Label(midframe, textvariable=out)
+out.set("Content Requested")
+label.pack(pady = 0)
+text = Text(midframe)
+text.pack()
 
 root.title("Test")
 root.mainloop()

@@ -1,4 +1,4 @@
-# GUI application with wikipedia python library
+# Tkinter GUI application with wikipedia library
 ***
 
 ### Libraries needed:

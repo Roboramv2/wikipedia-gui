@@ -20,11 +20,12 @@ def main(a=None):
         main(a)
     
 def sectionsbutton():
-    i = listbox.curselection()
-    i = listbox.get(i)
+    global tit
+    tit = listbox.curselection()
+    tit = listbox.get(tit)
     try:
         global m
-        m = wikipedia.page(title=i, auto_suggest=False)
+        m = wikipedia.page(title=tit, auto_suggest=False)
         l = m.sections
         prev = sectionlist.size()
         if prev == 0:
@@ -38,9 +39,11 @@ def sectionsbutton():
         print("Disambuguation error, be more specific")
         
 def extractbutton():
-    i = sectionlist.curselection()
-    i = sectionlist.get(i)
-    sect = m.section(i)
+    global f
+    f = sectionlist.curselection()
+    f = sectionlist.get(f)
+    sect = m.section(f)
+    out.set(tit+"-"+f)
     disp(sect, text)
 
 root = Tk()
@@ -82,7 +85,7 @@ button3.pack(side = BOTTOM,)
 #text display #label
 out = StringVar()
 label = Label(midframe, textvariable=out)
-out.set("Content Requested")
+out.set(" ")
 label.pack(pady = 0)
 text = Text(midframe)
 text.pack()

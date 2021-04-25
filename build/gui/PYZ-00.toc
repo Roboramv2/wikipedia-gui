@@ -1,4 +1,4 @@
-('C:\\Users\\Sriram\\Desktop\\wikipedia\\build\\gui\\PYZ-00.pyz',
+('C:\\Users\\Sriram\\Desktop\\Projects\\wikipedia\\build\\gui\\PYZ-00.pyz',
  [('os',
    'c:\\users\\sriram\\appdata\\local\\programs\\python\\python38\\lib\\os.py',
    'PYMODULE'),

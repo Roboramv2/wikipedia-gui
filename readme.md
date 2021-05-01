@@ -4,6 +4,7 @@
 ### Libraries needed:
 * wikipedia - `pip install wikipedia`
 * tkinter - `pre installed in python`
+* pdfkit - `pip install pdfkit`
 
 ### Files in repository:
 1. gui.py is single file script for graphical interface as well as functionalities.
@@ -17,3 +18,4 @@
 4. this will create a list of subheadings in the chosen wikipedia page.
 5. select the section to view and click on "extract".
 6. view information displayed on text box.
+7. click on download button to save the wikipedia page as pdf file.

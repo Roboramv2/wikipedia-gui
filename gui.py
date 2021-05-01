@@ -1,9 +1,18 @@
 from tkinter import *
 import wikipedia
+import pdfkit
 
 def disp(x, textbox):
     textbox.delete("1.0", "end")
     textbox.insert(INSERT, x)
+
+def download():
+    try:
+        filename = tit+'.pdf'
+        print(m.url)
+        pdfkit.from_url(m.url, filename)
+    except:
+        disp('Unexpected error, try again', text)
 
 def main(a=None):
     prev = listbox.size()
@@ -36,7 +45,7 @@ def sectionsbutton():
             sectionsbutton()
 
     except:
-        print("Disambuguation error, be more specific")
+        disp("Disambiguation error, try another title. If the title you chose was all caps, it is probably a disambiguation page whose results are already listed in the search results section.", text)
         
 def extractbutton():
     global f
@@ -58,6 +67,10 @@ leftframe = Frame(root)
 leftframe.pack(side=LEFT, pady = 15, padx = (15, 0))
 midframe = Frame(root)
 midframe.pack(pady = 15, padx = 15)
+midtop = Frame(midframe)
+midtop.pack(pady = 0, padx = 0)
+middown = Frame(midframe)
+middown.pack(pady = 0, padx = 0)
 
 #search bar #search button
 my_entry = Entry(topframe, width = 20,font = ('Verdana',13), relief="groove")
@@ -84,12 +97,14 @@ button3.pack(side = BOTTOM,)
 
 #text display #label
 out = StringVar()
-label = Label(midframe, textvariable=out)
+label = Label(midtop, textvariable=out)
 out.set(" ")
-label.pack(pady = 0)
-text = Text(midframe)
+label.pack(side = LEFT, pady = 0)
+button4 = Button(midtop, text = "Download", command=download, bd = 0.5)
+button4.pack(side = RIGHT,)
+text = Text(middown)
 text.pack()
 
-root.title("Test")
+root.title("Wiki-gui")
 root.mainloop()
 
